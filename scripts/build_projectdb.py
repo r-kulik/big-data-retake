@@ -4,6 +4,7 @@ This python code makes a database for the project
 
 from pprint import pprint
 import os
+from io import open
 
 import psycopg2 as psql
 
@@ -13,9 +14,12 @@ file = os.path.join("secrets", ".psql.pass")
 with open(file, "r", encoding='utf-8') as file:
     password = file.read().rstrip()
 
+
 # Build connection string
-CONN_STRING = f"""host=hadoop-04.uni.innopolis.ru
-port=5432 user=team38 dbname=team38_projectdb password={password}"""
+CONN_STRING = "host=hadoop-04.uni.innopolis.ru port=5432" +\
+    "user=team38 dbname=team38_projectdb password=" + password
+
+
 
 # Connect to the remote DBMS
 with psql.connect(CONN_STRING) as conn:

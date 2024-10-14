@@ -1,0 +1,85 @@
+{
+  "type" : "record",
+  "name" : "housing_data",
+  "doc" : "Sqoop import of housing_data",
+  "fields" : [ {
+    "name" : "id",
+    "type" : [ "null", "int" ],
+    "default" : null,
+    "columnName" : "id",
+    "sqlType" : "4"
+  }, {
+    "name" : "price",
+    "type" : [ "null", "double" ],
+    "default" : null,
+    "columnName" : "price",
+    "sqlType" : "8"
+  }, {
+    "name" : "apartment_type_id",
+    "type" : [ "null", "int" ],
+    "default" : null,
+    "columnName" : "apartment_type_id",
+    "sqlType" : "4"
+  }, {
+    "name" : "metro_station_id",
+    "type" : [ "null", "int" ],
+    "default" : null,
+    "columnName" : "metro_station_id",
+    "sqlType" : "4"
+  }, {
+    "name" : "minutes_to_metro",
+    "type" : [ "null", "double" ],
+    "default" : null,
+    "columnName" : "minutes_to_metro",
+    "sqlType" : "8"
+  }, {
+    "name" : "region_id",
+    "type" : [ "null", "int" ],
+    "default" : null,
+    "columnName" : "region_id",
+    "sqlType" : "4"
+  }, {
+    "name" : "number_of_rooms",
+    "type" : [ "null", "double" ],
+    "default" : null,
+    "columnName" : "number_of_rooms",
+    "sqlType" : "8"
+  }, {
+    "name" : "area",
+    "type" : [ "null", "double" ],
+    "default" : null,
+    "columnName" : "area",
+    "sqlType" : "8"
+  }, {
+    "name" : "living_area",
+    "type" : [ "null", "double" ],
+    "default" : null,
+    "columnName" : "living_area",
+    "sqlType" : "8"
+  }, {
+    "name" : "kitchen_area",
+    "type" : [ "null", "double" ],
+    "default" : null,
+    "columnName" : "kitchen_area",
+    "sqlType" : "8"
+  }, {
+    "name" : "apartment_floor",
+    "type" : [ "null", "double" ],
+    "default" : null,
+    "columnName" : "apartment_floor",
+    "sqlType" : "8"
+  }, {
+    "name" : "number_of_floors",
+    "type" : [ "null", "double" ],
+    "default" : null,
+    "columnName" : "number_of_floors",
+    "sqlType" : "8"
+  }, {
+    "name" : "renovation_id",
+    "type" : [ "null", "int" ],
+    "default" : null,
+    "columnName" : "renovation_id",
+    "sqlType" : "4"
+  } ],
+  "tableName" : "housing_data"
+}

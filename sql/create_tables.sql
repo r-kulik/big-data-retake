@@ -20,7 +20,7 @@ CREATE TABLE raw (
     area FLOAT NOT NULL,
     living_area FLOAT NOT NULL,
     kitchen_area FLOAT NOT NULL,
-    floor FLOAT NOT NULL,
+    apartment_floor FLOAT NOT NULL,
     number_of_floors FLOAT NOT NULL,
     renovation VARCHAR(50) NOT NULL
 );
@@ -70,7 +70,7 @@ CREATE TABLE housing_data (
     area FLOAT NOT NULL,
     living_area FLOAT NOT NULL,
     kitchen_area FLOAT NOT NULL,
-    floor FLOAT NOT NULL,
+    apartment_floor FLOAT NOT NULL,
     number_of_floors FLOAT NOT NULL,
     renovation_id INT REFERENCES renovations(id)
 );

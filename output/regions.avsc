@@ -1,0 +1,19 @@
+{
+  "type" : "record",
+  "name" : "regions",
+  "doc" : "Sqoop import of regions",
+  "fields" : [ {
+    "name" : "id",
+    "type" : [ "null", "int" ],
+    "default" : null,
+    "columnName" : "id",
+    "sqlType" : "4"
+  }, {
+    "name" : "name",
+    "type" : [ "null", "string" ],
+    "default" : null,
+    "columnName" : "name",
+    "sqlType" : "12"
+  } ],
+  "tableName" : "regions"
+}

@@ -5,7 +5,7 @@ COPY raw_geo (name, latitude, longitude)
 FROM STDIN DELIMITER ',' CSV HEADER QUOTE '"' ESCAPE '''';
 
 -- Import data into raw table
-COPY raw (price, apartment_type, metro_station, minutes_to_metro, region, number_of_rooms, area, living_area, kitchen_area, floor, number_of_floors, renovation)
+COPY raw (price, apartment_type, metro_station, minutes_to_metro, region, number_of_rooms, area, living_area, kitchen_area, apartment_floor, number_of_floors, renovation)
 FROM STDIN DELIMITER ',' CSV HEADER QUOTE '"' ESCAPE '''';
 
 -- Insert unique apartment types into apartment_types table
@@ -35,7 +35,7 @@ FROM raw_geo rg
 ON CONFLICT (name) DO UPDATE SET latitude = EXCLUDED.latitude, longitude = EXCLUDED.longitude;
 
 -- Insert data into housing_data table
-INSERT INTO housing_data (price, apartment_type_id, metro_station_id, minutes_to_metro, region_id, number_of_rooms, area, living_area, kitchen_area, floor, number_of_floors, renovation_id)
+INSERT INTO housing_data (price, apartment_type_id, metro_station_id, minutes_to_metro, region_id, number_of_rooms, area, living_area, kitchen_area, apartment_floor, number_of_floors, renovation_id)
 SELECT
     r.price,
     at.id AS apartment_type_id,
@@ -46,7 +46,7 @@ SELECT
     r.area,
     r.living_area,
     r.kitchen_area,
-    r.floor,
+    r.apartment_floor,
     r.number_of_floors,
     ren.id AS renovation_id
 FROM raw r

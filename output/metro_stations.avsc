@@ -1,0 +1,31 @@
+{
+  "type" : "record",
+  "name" : "metro_stations",
+  "doc" : "Sqoop import of metro_stations",
+  "fields" : [ {
+    "name" : "id",
+    "type" : [ "null", "int" ],
+    "default" : null,
+    "columnName" : "id",
+    "sqlType" : "4"
+  }, {
+    "name" : "name",
+    "type" : [ "null", "string" ],
+    "default" : null,
+    "columnName" : "name",
+    "sqlType" : "12"
+  }, {
+    "name" : "latitude",
+    "type" : [ "null", "double" ],
+    "default" : null,
+    "columnName" : "latitude",
+    "sqlType" : "8"
+  }, {
+    "name" : "longitude",
+    "type" : [ "null", "double" ],
+    "default" : null,
+    "columnName" : "longitude",
+    "sqlType" : "8"
+  } ],
+  "tableName" : "metro_stations"
+}
