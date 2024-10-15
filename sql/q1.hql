@@ -1,5 +1,7 @@
 USE team38_projectdb;
 
+
+DROP TABLE IF EXISTS q1_results;
 -- Query 1: Find the mean price for the meter squared (price of the apartment divided by its area) in both regions depending on the renovation_type
 CREATE TABLE q1_results AS
 SELECT

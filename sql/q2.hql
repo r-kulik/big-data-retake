@@ -1,5 +1,7 @@
 USE team38_projectdb;
 
+DROP TABLE IF EXISTS q2_results;
+
 -- Query 2: Show the average price of the meter squared depending on the distance from the center (Use Euclidean distance). Group Data into 10 buckets depending on the distance
 CREATE TABLE q2_results AS
 SELECT

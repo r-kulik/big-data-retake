@@ -1,5 +1,7 @@
 USE team38_projectdb;
 
+DROP TABLE IF EXISTS q5_results;
+
 -- Query 5: Fetch dependencies between the location of the floor and price per meter squared
 CREATE TABLE q5_results AS
 SELECT

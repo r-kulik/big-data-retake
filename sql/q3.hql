@@ -1,5 +1,7 @@
 USE team38_projectdb;
 
+DROP TABLE IF EXISTS q3_results;
+
 -- Query 3: Find the average price of the meter squared depending on the minutes_to_metro. Group data into 10 buckets depending on the minutes_to_metro
 CREATE TABLE q3_results AS
 SELECT

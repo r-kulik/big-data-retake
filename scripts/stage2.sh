@@ -27,4 +27,4 @@ beeline -u jdbc:hive2://hadoop-03.uni.innopolis.ru:10001 -n team38 -p $password 
 beeline -u jdbc:hive2://hadoop-03.uni.innopolis.ru:10001 -n team38 -p $password -f sql/q5.hql
 beeline -u jdbc:hive2://hadoop-03.uni.innopolis.ru:10001 -n team38 -p $password -f sql/q5_export.hql --outputformat=csv2 --silent > output/q5.csv
 
-python scripts/create_hist.py
+python3 scripts/create_hist.py
