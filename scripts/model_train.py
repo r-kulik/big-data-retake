@@ -1,12 +1,16 @@
+"""
+This module trains Linear Regression and Grafient Boosting Tree Regressor to obtain models for data
+"""
+
+
 from pyspark.sql import SparkSession
 from pyspark.ml.regression import LinearRegression, GBTRegressor
 from pyspark.ml.evaluation import RegressionEvaluator
 from pyspark.ml.tuning import TrainValidationSplit, ParamGridBuilder
-from pyspark.sql.functions import abs, col, mean
+from pyspark.sql.functions import abs as abs_fun, col, mean
 from pyspark.ml.feature import StringIndexer, OneHotEncoder, VectorAssembler, StandardScaler
 from pyspark.ml import Pipeline
 from pyspark.sql.functions import rand
-import os
 
 # Initialize Spark Session
 print("Initializing Spark Session...")
@@ -48,24 +52,32 @@ train_data, test_data = df.orderBy(rand(seed=42)).randomSplit([0.8, 0.2], seed=4
 # Feature Engineering and Pipeline
 print("Performing feature engineering and creating pipeline...")
 categorical_columns = [
-    'apartment_type_name', 
-    'region_name', 
-    'renovation_name', 
+    'apartment_type_name',
+    'region_name',
+    'renovation_name'
 ]
 numeric_columns = [
-    'minutes_to_metro', 
-    'number_of_rooms', 
-    'area', 
-    'living_area', 
-    'kitchen_area', 
-    'apartment_floor', 
-    'number_of_floors', 
-    'metro_station_latitude', 
+    'minutes_to_metro',
+    'number_of_rooms',
+    'area',
+    'living_area',
+    'kitchen_area',
+    'apartment_floor',
+    'number_of_floors',
+    'metro_station_latitude',
     'metro_station_longitude'
 ]
 
-indexers = [StringIndexer(inputCol=col, outputCol=col + "_index", handleInvalid="keep") for col in categorical_columns]
-encoders = [OneHotEncoder(inputCol=col + "_index", outputCol=col + "_encoded") for col in categorical_columns]
+indexers = [
+    StringIndexer(
+        inputCol=col, outputCol=col + "_index", handleInvalid="keep"
+    ) for col in categorical_columns
+]
+encoders = [
+    OneHotEncoder(
+        inputCol=col + "_index", outputCol=col + "_encoded"
+    ) for col in categorical_columns
+]
 
 train_data = train_data.withColumn("living_area_ratio", col("living_area") / col("area"))
 test_data = test_data.withColumn("living_area_ratio", col("living_area") / col("area"))
@@ -74,7 +86,9 @@ numeric_columns.append("living_area_ratio")
 
 assembler_inputs = [col + "_encoded" for col in categorical_columns] + numeric_columns
 assembler = VectorAssembler(inputCols=assembler_inputs, outputCol="features")
-scaler = StandardScaler(inputCol="features", outputCol="scaled_features", withStd=True, withMean=True)
+scaler = StandardScaler(
+    inputCol="features", outputCol="scaled_features", withStd=True, withMean=True
+)
 
 pipeline = Pipeline(stages=indexers + encoders + [assembler, scaler])
 model = pipeline.fit(train_data)
@@ -98,7 +112,9 @@ paramGrid = ParamGridBuilder() \
 
 tvs = TrainValidationSplit(estimator=lr,
                            estimatorParamMaps=paramGrid,
-                           evaluator=RegressionEvaluator(labelCol="label", predictionCol="prediction", metricName="rmse"),
+                           evaluator=RegressionEvaluator(
+                               labelCol="label", predictionCol="prediction", metricName="rmse"
+                            ),
                            trainRatio=0.8)
 
 lr_model = tvs.fit(train_data)
@@ -113,7 +129,9 @@ predictions.select("label", "prediction")\
     .option("header", "true")\
     .save("project/output/model1_predictions")
 
-evaluator_rmse = RegressionEvaluator(labelCol="label", predictionCol="prediction", metricName="rmse")
+evaluator_rmse = RegressionEvaluator(
+    labelCol="label", predictionCol="prediction", metricName="rmse"
+)
 evaluator_r2 = RegressionEvaluator(labelCol="label", predictionCol="prediction", metricName="r2")
 evaluator_mae = RegressionEvaluator(labelCol="label", predictionCol="prediction", metricName="mae")
 
@@ -121,10 +139,12 @@ rmse1 = evaluator_rmse.evaluate(predictions)
 r21 = evaluator_r2.evaluate(predictions)
 mae1 = evaluator_mae.evaluate(predictions)
 
-predictions = predictions.withColumn("APE", abs((col("label") - col("prediction")) / col("label")))
+predictions = predictions.withColumn(
+    "APE", abs_fun((col("label") - col("prediction")) / col("label"))
+)
 mape1 = predictions.select(mean("APE")).collect()[0][0] * 100
 
-print(f"Linear Regression Model Evaluation:")
+print("Linear Regression Model Evaluation:")
 print(f"Root Mean Squared Error (RMSE): {rmse1}")
 print(f"R^2: {r21}")
 print(f"Mean Absolute Error (MAE): {mae1}")
@@ -141,7 +161,9 @@ paramGrid = ParamGridBuilder() \
 
 tvs = TrainValidationSplit(estimator=gbt,
                            estimatorParamMaps=paramGrid,
-                           evaluator=RegressionEvaluator(labelCol="label", predictionCol="prediction", metricName="rmse"),
+                           evaluator=RegressionEvaluator(
+                               labelCol="label", predictionCol="prediction", metricName="rmse"
+                            ),
                            trainRatio=0.8)
 
 gbt_model = tvs.fit(train_data)
@@ -156,7 +178,9 @@ predictions.select("label", "prediction")\
     .option("header", "true")\
     .save("project/output/model2_predictions")
 
-evaluator_rmse = RegressionEvaluator(labelCol="label", predictionCol="prediction", metricName="rmse")
+evaluator_rmse = RegressionEvaluator(
+    labelCol="label", predictionCol="prediction", metricName="rmse"
+)
 evaluator_r2 = RegressionEvaluator(labelCol="label", predictionCol="prediction", metricName="r2")
 evaluator_mae = RegressionEvaluator(labelCol="label", predictionCol="prediction", metricName="mae")
 
@@ -164,10 +188,12 @@ rmse2 = evaluator_rmse.evaluate(predictions)
 r22 = evaluator_r2.evaluate(predictions)
 mae2 = evaluator_mae.evaluate(predictions)
 
-predictions = predictions.withColumn("APE", abs((col("label") - col("prediction")) / col("label")))
+predictions = predictions.withColumn(
+    "APE", abs_fun((col("label") - col("prediction")) / col("label"))
+)
 mape2 = predictions.select(mean("APE")).collect()[0][0] * 100
 
-print(f"GBT Model Evaluation:")
+print("GBT Model Evaluation:")
 print(f"Root Mean Squared Error (RMSE): {rmse2}")
 print(f"R^2: {r22}")
 print(f"Mean Absolute Error (MAE): {mae2}")

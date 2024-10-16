@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Run the Python script using Spark with YARN and redirect stderr to /dev/null
-spark-submit --master yarn --deploy-mode client scripts/modelTrain.py 2>/dev/null
+spark-submit --master yarn --deploy-mode client scripts/model_train.py 2>/dev/null
 
 # Check if the script ran successfully
 if [ $? -eq 0 ]; then
